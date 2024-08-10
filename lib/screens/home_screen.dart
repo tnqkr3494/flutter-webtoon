@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_model.dart';
 import 'package:toonflix/services/api_service.dart';
+import 'package:toonflix/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
+  final Future<List<WebtoonModel>> webtoons = ApiService.getTodaysToons();
   // static으로 getTodaysToons를 만듦으로써 인스턴스 생성필요 없이 바로 호출가능.
 
   @override
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             return Column(
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Expanded(child: makeList(snapshot)),
               ],
@@ -50,45 +51,17 @@ class HomeScreen extends StatelessWidget {
 
   ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
     return ListView.separated(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 20,
+      ),
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         var webtoon = snapshot.data![index];
-        return Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
-              ),
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 15,
-                      color: Colors.black.withOpacity(0.2),
-                      offset: const Offset(0, 10),
-                    )
-                  ]),
-              width: 250,
-              child: Image.network(
-                webtoon.thumb,
-                headers: const {
-                  'Referer': 'https://comic.naver.com',
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              webtoon.title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
