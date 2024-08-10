@@ -46,51 +46,46 @@ class _DetailScreenState extends State<DetailScreen> {
         foregroundColor: Colors.green,
         surfaceTintColor: Colors.transparent,
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Hero(
-                tag: widget.id,
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        color: Colors.black.withOpacity(0.3),
-                        offset: const Offset(10, 10),
-                      ),
-                    ],
-                  ),
-                  width: 250,
-                  child: Image.network(
-                    widget.thumb,
-                    headers: const {
-                      'Referer': 'https://comic.naver.com',
-                    },
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(50),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: widget.id,
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 15,
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(10, 10),
+                        ),
+                      ],
+                    ),
+                    width: 250,
+                    child: Image.network(
+                      widget.thumb,
+                      headers: const {
+                        'Referer': 'https://comic.naver.com',
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          FutureBuilder(
-            future: webtoon,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                  ),
-                  child: Column(
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            FutureBuilder(
+              future: webtoon,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
                     children: [
                       Text(
                         snapshot.data!.about,
@@ -101,22 +96,84 @@ class _DetailScreenState extends State<DetailScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        "${snapshot.data!.genre} / ${snapshot.data!.age}",
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w600,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 15,
+                              offset: const Offset(5, 10),
+                            )
+                          ],
+                          color: Colors.black.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          "${snapshot.data!.genre} / ${snapshot.data!.age}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                );
-              } else {
-                return const Text("...");
-              }
-            },
-          )
-        ],
+                  );
+                } else {
+                  return const Text("...");
+                }
+              },
+            ),
+            const SizedBox(height: 20),
+            FutureBuilder(
+              future: episodes,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      for (var episode in snapshot.data!)
+                        Container(
+                          margin: const EdgeInsets.only(
+                            bottom: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade300,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  episode.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            )
+          ],
+        ),
       ),
     );
   }
