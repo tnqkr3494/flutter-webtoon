@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  void flutterToast() {
+    Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +71,60 @@ class MyApp extends StatelessWidget {
         ),
         body: Builder(builder: (ctx) {
           return Center(
-            child: TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(ctx).showSnackBar(
-                  const SnackBar(
-                    content: Text("SnackBar"),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(ctx).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "SnackBar",
+                          textAlign: TextAlign.center,
+                        ),
+                        backgroundColor: Colors.teal,
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 40,
+                    ),
+                    backgroundColor: Colors.pink.withOpacity(0.8),
                   ),
-                );
-              },
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 40,
+                  child: const Text(
+                    "SnackBar",
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                backgroundColor: Colors.pink.withOpacity(0.8),
-              ),
-              child: const Text(
-                "click",
-                style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.white,
+                const SizedBox(
+                  height: 30,
                 ),
-              ),
+                TextButton(
+                  onPressed: () {
+                    flutterToast();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 40,
+                    ),
+                    backgroundColor: Colors.blue.withOpacity(0.8),
+                  ),
+                  child: const Text(
+                    "Toast",
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }),
