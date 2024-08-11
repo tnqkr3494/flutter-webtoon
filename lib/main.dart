@@ -58,6 +58,33 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
+        body: Builder(builder: (ctx) {
+          return Center(
+            child: TextButton(
+              onPressed: () {
+                ScaffoldMessenger.of(ctx).showSnackBar(
+                  const SnackBar(
+                    content: Text("SnackBar"),
+                  ),
+                );
+              },
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 40,
+                ),
+                backgroundColor: Colors.pink.withOpacity(0.8),
+              ),
+              child: const Text(
+                "click",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          );
+        }),
       ),
     );
   }
