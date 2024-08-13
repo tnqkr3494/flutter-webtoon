@@ -25,11 +25,15 @@ class _LoadingState extends State<Loading> {
     final weatherData = await ApiService.getLocationDetail(
         position.latitude, position.longitude);
 
+    final airData =
+        await ApiService.getAirDetail(position.latitude, position.longitude);
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => WeatherScreen(
           weatherData: weatherData,
+          airData: airData,
         ),
       ),
     );

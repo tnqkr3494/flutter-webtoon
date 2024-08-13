@@ -10,9 +10,24 @@ class ApiService {
         "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric");
 
     final http.Response response = await http.get(url);
+
     if (response.statusCode == 200) {
       final weatherData = jsonDecode(response.body);
       return weatherData;
+    }
+    throw Error();
+  }
+
+  static Future<dynamic> getAirDetail(double latitude, double longitude) async {
+    final url = Uri.parse(
+        "https://api.openweathermap.org/data/2.5/air_pollution?lat=$latitude&lon=$longitude&appid=$apiKey");
+
+    final http.Response response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final airData = jsonDecode(response.body);
+      print(airData);
+      return airData;
     }
     throw Error();
   }
