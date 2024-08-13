@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:toonflix/screens/weather_screen.dart';
 import 'package:toonflix/services/api_service.dart';
@@ -42,24 +43,10 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 40,
-            ),
-          ),
-          onPressed: null,
-          child: const Text(
-            "Click this Button",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
+      backgroundColor: Colors.orange[400],
+      body: const Center(
+        child: SpinKitDualRing(
+          color: Colors.white,
         ),
       ),
     );
