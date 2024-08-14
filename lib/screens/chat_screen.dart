@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:toonflix/chatting/chat/message.dart';
+import 'package:toonflix/chatting/chat/new_message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -24,29 +26,16 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      body: Center(
-          child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("chats/KYA1crnBxf6GDr4C6lCs/message")
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final docs = snapshot.data!.docs;
-          return ListView.builder(
-            padding: const EdgeInsets.all(10),
-            itemCount: docs.length,
-            itemBuilder: (context, index) {
-              return Container(
-                child: Text(docs[index]["text"]),
-              );
-            },
-          );
-        },
-      )),
+      body: Container(
+        child: const Column(
+          children: [
+            Expanded(
+              child: Message(),
+            ),
+            NewMessage()
+          ],
+        ),
+      ),
     );
   }
 }
