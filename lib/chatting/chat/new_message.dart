@@ -12,9 +12,15 @@ class _NewMessageState extends State<NewMessage> {
   var _newMessage = "";
   final _controller = TextEditingController();
 
-  void sendMessage() {
+  void sendMessage() async {
+    print("call");
     FocusScope.of(context).unfocus();
-    FirebaseFirestore.instance.collection("chat").add({"text": _newMessage});
+    await FirebaseFirestore.instance.collection("chat").add(
+      {
+        "text": _newMessage,
+        "time": Timestamp.now(),
+      },
+    );
     setState(() {
       _newMessage = "";
       _controller.clear();
@@ -33,12 +39,20 @@ class _NewMessageState extends State<NewMessage> {
               controller: _controller,
               decoration: const InputDecoration(labelText: "Send a message"),
               onChanged: (value) {
-                _newMessage = value;
+                setState(() {
+                  _newMessage = value;
+                });
               },
             ),
           ),
           IconButton(
-            onPressed: _newMessage.trim().isEmpty ? null : sendMessage,
+            onPressed: _newMessage.trim().isEmpty
+                ? () {
+                    print(_newMessage
+                        .trim()
+                        .isEmpty); // onChange에서 setState를 설정안해줘서 업데이트가 한발 느림
+                  }
+                : sendMessage,
             icon: const Icon(
               Icons.send,
               color: Colors.blue,
