@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toonflix/screens/chat_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,6 +12,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   bool isLogin = true;
   final _formKey = GlobalKey<FormState>();
+  final _authentication = FirebaseAuth.instance;
 
   String userName = "";
   String userEmail = "";
@@ -157,6 +160,7 @@ class _MainScreenState extends State<MainScreen> {
                               children: [
                                 TextFormField(
                                   key: const ValueKey(1),
+                                  keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !value.contains("@")) {
@@ -166,6 +170,9 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   onSaved: (value) {
                                     userEmail = value!;
+                                  },
+                                  onChanged: (value) {
+                                    userEmail = value;
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: const Icon(Icons.mail),
@@ -186,6 +193,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 TextFormField(
                                   key: const ValueKey(2),
+                                  obscureText: true,
                                   validator: (value) {
                                     if (value!.isEmpty || value.length <= 7) {
                                       return "비밀번호가 잘못되었습니다.";
@@ -194,6 +202,9 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   onSaved: (value) {
                                     userPassword = value!;
+                                  },
+                                  onChanged: (value) {
+                                    userPassword = value;
                                   },
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(Icons.lock),
@@ -229,6 +240,9 @@ class _MainScreenState extends State<MainScreen> {
                                   onSaved: (value) {
                                     userName = value!;
                                   },
+                                  onChanged: (value) {
+                                    userName = value;
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon:
                                         const Icon(Icons.account_box_rounded),
@@ -249,6 +263,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 TextFormField(
                                   key: const ValueKey(4),
+                                  keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !value.contains("@")) {
@@ -258,6 +273,9 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   onSaved: (value) {
                                     userEmail = value!;
+                                  },
+                                  onChanged: (value) {
+                                    userEmail = value;
                                   },
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(Icons.email),
@@ -277,6 +295,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 TextFormField(
                                   key: const ValueKey(5),
+                                  obscureText: true,
                                   validator: (value) {
                                     if (value!.isEmpty || value.length <= 7) {
                                       return "비밀번호는 8자이상 작성해주세요.";
@@ -285,6 +304,9 @@ class _MainScreenState extends State<MainScreen> {
                                   },
                                   onSaved: (value) {
                                     userPassword = value!;
+                                  },
+                                  onChanged: (value) {
+                                    userPassword = value;
                                   },
                                   decoration: InputDecoration(
                                       prefixIcon: const Icon(Icons.lock),
@@ -325,7 +347,43 @@ class _MainScreenState extends State<MainScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: GestureDetector(
-                      onTap: _tryFormValidation,
+                      onTap: () async {
+                        if (isLogin) {
+                          _tryFormValidation();
+                          try {
+                            final newUser = await _authentication
+                                .signInWithEmailAndPassword(
+                                    email: userEmail, password: userPassword);
+
+                            if (newUser.user != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ChatScreen(),
+                                  ));
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        } else {
+                          _tryFormValidation();
+                          try {
+                            final newUser = await _authentication
+                                .createUserWithEmailAndPassword(
+                                    email: userEmail, password: userPassword);
+
+                            if (newUser.user != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ChatScreen(),
+                                  ));
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(

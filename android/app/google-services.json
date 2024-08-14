@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "606629394338",
+    "project_id": "chatting-fea24",
+    "storage_bucket": "chatting-fea24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606629394338:android:9f1857954221305fff24fb",
+        "android_client_info": {
+          "package_name": "com.example.toonflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVZAbq65HgYjrObi1K5CQtfyPViZWYf4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
