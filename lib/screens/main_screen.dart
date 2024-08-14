@@ -373,11 +373,11 @@ class _MainScreenState extends State<MainScreen> {
                                 setState(() {
                                   isLoading = false;
                                 });
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const ChatScreen(),
-                                    ));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => const ChatScreen(),
+                                //     ));
                               }
                             } catch (e) {
                               print(e);
@@ -393,11 +393,11 @@ class _MainScreenState extends State<MainScreen> {
                                 setState(() {
                                   isLoading = false;
                                 });
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const ChatScreen(),
-                                    ));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => const ChatScreen(),
+                                //     ));
                               }
                             } catch (e) {
                               print(e);
