@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -388,6 +389,14 @@ class _MainScreenState extends State<MainScreen> {
                               final newUser = await _authentication
                                   .createUserWithEmailAndPassword(
                                       email: userEmail, password: userPassword);
+
+                              await FirebaseFirestore.instance
+                                  .collection("user")
+                                  .doc(newUser.user!.uid)
+                                  .set({
+                                "userName": userName,
+                                "email": userEmail,
+                              });
 
                               if (newUser.user != null) {
                                 setState(() {
