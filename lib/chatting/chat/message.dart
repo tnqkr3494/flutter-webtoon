@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toonflix/chatting/chat/chat_bubble.dart';
 
 class Message extends StatefulWidget {
   const Message({super.key});
@@ -9,6 +11,8 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
+  final user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -28,8 +32,9 @@ class _MessageState extends State<Message> {
           reverse: true,
           itemCount: docs.length,
           itemBuilder: (context, index) {
-            return Text(
-              docs[index]["text"],
+            return ChatBubble(
+              message: docs[index]["text"],
+              isMe: docs[index]["id"] == user!.uid,
             );
           },
         );
